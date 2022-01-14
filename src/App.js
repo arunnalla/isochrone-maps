@@ -1,12 +1,33 @@
 import React, { useRef, useEffect, useState } from 'react';
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import Map, { Marker } from 'react-map-gl';
+
+import Box from '@mui/material/Box';
+
+import CreateMarkerDialog from './components/create-marker-dialog';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 function App() {
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const [points, setPoints] = useState([]);
+
+  const onMarkerAdd = ({ latitude, longitude }) => {
+    setPoints([...points, { latitude, longitude }]);
+  };
+
+  const getMarkers = () => {
+    return points.map((point) => {
+      return (
+        <Marker
+          key={`${point.latitude}-${point.longitude}`}
+          latitude={point.latitude}
+          longitude={point.longitude}
+          anchor="bottom"
+        />
+      );
+    });
+  };
 
   return (
     <Map
@@ -17,7 +38,12 @@ function App() {
       }}
       style={{ width: '100wh', height: '100vh' }}
       mapStyle="mapbox://styles/mapbox/dark-v10"
-    />
+    >
+      <Box sx={{ position: 'absolute', margin: 2, right: 0 }}>
+        <CreateMarkerDialog onMarkerAdd={onMarkerAdd} />
+      </Box>
+      {getMarkers()}
+    </Map>
   );
 }
 
