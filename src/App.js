@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Map, { Marker } from 'react-map-gl';
 
 import Box from '@mui/material/Box';
@@ -8,8 +8,6 @@ import CreateMarkerDialog from './components/create-marker-dialog';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 function App() {
-  const mapContainer = useRef(null);
-  const map = useRef(null);
   const [points, setPoints] = useState([]);
 
   const onMarkerAdd = ({ latitude, longitude }) => {
