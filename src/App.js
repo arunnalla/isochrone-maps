@@ -24,7 +24,9 @@ function App() {
           latitude={point.latitude}
           longitude={point.longitude}
           anchor="bottom"
-        />
+        >
+          <img src="./marker.png"></img>
+        </Marker>
       );
     });
   };
