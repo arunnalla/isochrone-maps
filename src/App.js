@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import Map, { Marker } from 'react-map-gl';
-
+import mapboxgl from 'mapbox-gl';
 import Box from '@mui/material/Box';
 
 import CreateMarkerDialog from './components/create-marker-dialog';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
+
+// The following is required to stop "npm build" from transpiling mapbox code.
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 function App() {
   const [points, setPoints] = useState([]);
