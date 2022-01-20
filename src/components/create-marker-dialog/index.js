@@ -5,6 +5,10 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormLabel from '@mui/material/FormLabel';
 
 export default function CreateMarkerDialog({ onMarkerAdd }) {
   const [open, setOpen] = React.useState(false);
@@ -35,10 +39,10 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
   return (
     <div>
       <Button variant="contained" onClick={handleClickOpen}>
-        Add Marker
+        Add Isochrone
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add a new marker</DialogTitle>
+        <DialogTitle>Add a new isochrone</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -62,11 +66,28 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
             variant="standard"
             onChange={handleInputChange}
           />
+          <FormLabel id="mode-radio-buttons-group">Mode</FormLabel>
+          <RadioGroup aria-labelledby="mode-radio-buttons-group" defaultValue="WALKING" name="mode">
+            <FormControlLabel value="WALKING" control={<Radio />} label="Walking" />
+            <FormControlLabel value="CYCLING" control={<Radio />} label="Cycling" />
+            <FormControlLabel value="DRIVING" control={<Radio />} label="Driving" />
+          </RadioGroup>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="duration"
+            name="duration"
+            label="Duration"
+            type="number"
+            fullWidth
+            variant="standard"
+            onChange={handleInputChange}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
           <Button type="submit" onClick={handleSubmit}>
-            Add Marker
+            Add Isochrone
           </Button>
         </DialogActions>
       </Dialog>
