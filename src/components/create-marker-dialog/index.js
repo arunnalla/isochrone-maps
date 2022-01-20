@@ -53,6 +53,7 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
             label="Latitude"
             type="number"
             fullWidth
+            required
             variant="standard"
             onChange={handleInputChange}
           />
@@ -63,12 +64,14 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
             name="longitude"
             label="Longitude"
             type="number"
+            required
             fullWidth
             variant="standard"
             onChange={handleInputChange}
           />
           <FormLabel id="mode-radio-buttons-group">Mode</FormLabel>
           <RadioGroup
+            required
             onChange={handleInputChange}
             aria-labelledby="mode-radio-buttons-group"
             defaultValue={MODES.Walking}
@@ -86,6 +89,7 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
             label="Duration"
             type="number"
             fullWidth
+            required
             variant="standard"
             onChange={handleInputChange}
           />
