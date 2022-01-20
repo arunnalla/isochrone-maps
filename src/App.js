@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Map, { Marker } from 'react-map-gl';
+import Map, { Marker, AttributionControl } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import Box from '@mui/material/Box';
 
@@ -41,11 +41,13 @@ function App() {
       }}
       style={{ width: '100wh', height: '100vh' }}
       mapStyle="mapbox://styles/mapbox/dark-v10"
+      attributionControl={false}
     >
       <Box sx={{ position: 'absolute', margin: 2, right: 0 }}>
         <CreateMarkerDialog onMarkerAdd={onMarkerAdd} />
       </Box>
       {getMarkers()}
+      <AttributionControl customAttribution="Application built by <a target='_blank' href='https://github.com/arunnalla'>Arun Nalla</a>" />
     </Map>
   );
 }
