@@ -1,5 +1,5 @@
 <div align="center">
-  <h2>Ischrone Vis</h2>
+  <h2>Isochrone Maps</h2>
 </div>
 
 Visualize regions that are reachable in a specific time using a specific mode. The application is powered by Mapbox Ischrone API.
