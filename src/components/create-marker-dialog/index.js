@@ -17,6 +17,8 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
   const [formData, setFormData] = React.useState({
     latitude: null,
     longitude: null,
+    duration: null,
+    mode: MODES.Walking,
   });
 
   const handleClickOpen = () => {
@@ -52,6 +54,17 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
     onMarkerAdd(formData);
     setOpen(false);
   };
+
+  const isSubmitDisabed = React.useMemo(() => {
+    return (
+      errors.latitude ||
+      errors.longitude ||
+      errors.duration ||
+      !formData.latitude ||
+      !formData.longitude ||
+      !formData.duration
+    );
+  }, [errors, formData]);
 
   return (
     <div>
@@ -118,11 +131,7 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button
-            type="submit"
-            disabled={errors.latitude || errors.longitude || errors.duration}
-            onClick={handleSubmit}
-          >
+          <Button type="submit" disabled={isSubmitDisabed} onClick={handleSubmit}>
             Add Isochrone
           </Button>
         </DialogActions>
