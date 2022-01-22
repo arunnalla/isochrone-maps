@@ -13,6 +13,7 @@ import MODES from '../../enums/mode';
 
 export default function CreateMarkerDialog({ onMarkerAdd }) {
   const [open, setOpen] = React.useState(false);
+  const [errors, setErrors] = React.useState({ latitude: false, longitude: false, duration: false });
   const [formData, setFormData] = React.useState({
     latitude: null,
     longitude: null,
@@ -29,7 +30,22 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
   const handleInputChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+    validate(name, value);
     setFormData({ ...formData, [name]: value });
+  };
+
+  const validate = (name, value) => {
+    switch (name) {
+      case 'latitude':
+        setErrors({ ...errors, latitude: value < -90 || value > 90 });
+        return;
+      case 'longitude':
+        setErrors({ ...errors, longitude: value < -180 || value > 180 });
+        return;
+      case 'duration':
+        setErrors({ ...errors, duration: value <= 0 });
+        return;
+    }
   };
 
   const handleSubmit = () => {
@@ -55,6 +71,8 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
             fullWidth
             required
             variant="standard"
+            error={errors.latitude}
+            helperText={errors.latitude && 'Latitude must be between -90 and 90'}
             onChange={handleInputChange}
           />
           <TextField
@@ -66,6 +84,8 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
             type="number"
             required
             fullWidth
+            error={errors.longitude}
+            helperText={errors.longitude && 'Longitude must be between -180 and 180'}
             variant="standard"
             onChange={handleInputChange}
           />
@@ -90,13 +110,19 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
             type="number"
             fullWidth
             required
+            error={errors.duration}
+            helperText={errors.duration && 'Duration must be greater than 0'}
             variant="standard"
             onChange={handleInputChange}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" onClick={handleSubmit}>
+          <Button
+            type="submit"
+            disabled={errors.latitude || errors.longitude || errors.duration}
+            onClick={handleSubmit}
+          >
             Add Isochrone
           </Button>
         </DialogActions>
