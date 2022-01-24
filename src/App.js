@@ -17,7 +17,7 @@ function App() {
     setPoints([...points, { latitude, longitude }]);
   };
 
-  const getMarkers = () => {
+  const renderMarkers = () => {
     return points.map((point) => {
       return (
         <Marker
@@ -46,7 +46,7 @@ function App() {
       <Box sx={{ position: 'absolute', margin: 2, right: 0 }}>
         <CreateMarkerDialog onMarkerAdd={onMarkerAdd} />
       </Box>
-      {getMarkers()}
+      {renderMarkers()}
       <AttributionControl customAttribution="Application built by <a target='_blank' href='https://github.com/arunnalla'>Arun Nalla</a> | <a href='https://www.flaticon.com/free-icons/marker' title='marker icons'>Icons created by Freepik - Flaticon</a>" />
     </Map>
   );
