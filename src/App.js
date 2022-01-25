@@ -11,14 +11,14 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 function App() {
-  const [points, setPoints] = useState([]);
+  const [markers, setMarkers] = useState([]);
 
-  const onMarkerAdd = ({ latitude, longitude }) => {
-    setPoints([...points, { latitude, longitude }]);
+  const onMarkerAdd = ({ latitude, longitude, mode, duration }) => {
+    setMarkers([...markers, { latitude, longitude, mode, duration }]);
   };
 
   const renderMarkers = () => {
-    return points.map((point) => {
+    return markers.map((point) => {
       return (
         <Marker
           key={`${point.latitude}-${point.longitude}`}
