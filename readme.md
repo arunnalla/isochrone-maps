@@ -15,3 +15,15 @@ npm install
 ```sh
 npm run start
 ```
+
+### Build
+
+```sh
+npm run build
+```
+
+### Serve
+
+```sh
+serve -s build
+```
