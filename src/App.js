@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import Map, { Marker, AttributionControl } from 'react-map-gl';
+import Map, { Marker, AttributionControl, Source, Layer } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import Box from '@mui/material/Box';
+import { randomColor } from 'randomcolor';
 
 import CreateMarkerDialog from './components/create-marker-dialog';
 
@@ -14,20 +15,48 @@ function App() {
   const [markers, setMarkers] = useState([]);
 
   const onMarkerAdd = ({ latitude, longitude, mode, duration }) => {
-    setMarkers([...markers, { latitude, longitude, mode, duration }]);
+    const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
+
+    fetch(
+      `${urlBase}${mode.toLowerCase()}/${longitude},${latitude}?contours_minutes=${duration}&polygons=true&denoise=1&access_token=${
+        process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+      }`
+    )
+      .then((response) => response.json())
+      .then((data) => setMarkers([...markers, { latitude, longitude, mode, duration, data, fillColor: randomColor() }]))
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const renderMarkers = () => {
-    return markers.map((point) => {
+    return markers.map((marker) => {
       return (
         <Marker
-          key={`${point.latitude}-${point.longitude}`}
-          latitude={point.latitude}
-          longitude={point.longitude}
+          key={`${marker.latitude}-${marker.longitude}`}
+          latitude={marker.latitude}
+          longitude={marker.longitude}
           anchor="bottom"
         >
           <img src="./marker.png"></img>
         </Marker>
+      );
+    });
+  };
+
+  const renderIsochroneLayers = () => {
+    return markers.map((marker) => {
+      return (
+        <>
+          <Source id={`${marker.latitude}-${marker.longitude}-geojson`} type="geojson" data={marker.data} />
+          <Layer
+            id={`${marker.latitude}-${marker.longitude}-layer`}
+            key={`${marker.latitude}-${marker.longitude}-layer`}
+            type="fill"
+            source={`${marker.latitude}-${marker.longitude}-geojson`}
+            paint={{ 'fill-color': marker.fillColor, 'fill-opacity': 0.4 }}
+          />
+        </>
       );
     });
   };
@@ -47,6 +76,7 @@ function App() {
         <CreateMarkerDialog onMarkerAdd={onMarkerAdd} />
       </Box>
       {renderMarkers()}
+      {renderIsochroneLayers()}
       <AttributionControl customAttribution="Application built by <a target='_blank' href='https://github.com/arunnalla'>Arun Nalla</a> | <a href='https://www.flaticon.com/free-icons/marker' title='marker icons'>Icons created by Freepik - Flaticon</a>" />
     </Map>
   );
