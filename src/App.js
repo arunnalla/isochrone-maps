@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import Map, { Marker, AttributionControl, Source, Layer } from 'react-map-gl';
+import Map, { AttributionControl, Source, Layer } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import Box from '@mui/material/Box';
 import { randomColor } from 'randomcolor';
 
 import CreateMarkerDialog from './components/create-marker-dialog';
+import CustomMarker from './components/custom-marker';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -31,16 +32,7 @@ function App() {
 
   const renderMarkers = () => {
     return markers.map((marker) => {
-      return (
-        <Marker
-          key={`${marker.latitude}-${marker.longitude}`}
-          latitude={marker.latitude}
-          longitude={marker.longitude}
-          anchor="bottom"
-        >
-          <img src="./marker.png"></img>
-        </Marker>
-      );
+      return <CustomMarker key={`${marker.latitude}-${marker.longitude}-marker`} marker={marker} />;
     });
   };
 
