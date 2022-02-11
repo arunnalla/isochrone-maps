@@ -38,14 +38,16 @@ function App() {
 
   const renderIsochroneLayers = () => {
     return markers.map((marker) => {
+      const sourceId = `${marker.latitude}-${marker.longitude}-geojson`;
+      const layerId = `${marker.latitude}-${marker.longitude}-layer`;
       return (
         <>
-          <Source id={`${marker.latitude}-${marker.longitude}-geojson`} type="geojson" data={marker.data} />
+          <Source id={sourceId} type="geojson" data={marker.data} />
           <Layer
-            id={`${marker.latitude}-${marker.longitude}-layer`}
-            key={`${marker.latitude}-${marker.longitude}-layer`}
+            id={layerId}
+            key={layerId}
             type="fill"
-            source={`${marker.latitude}-${marker.longitude}-geojson`}
+            source={sourceId}
             paint={{ 'fill-color': marker.fillColor, 'fill-opacity': 0.4 }}
           />
         </>
