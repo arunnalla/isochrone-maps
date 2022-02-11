@@ -119,7 +119,7 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
             margin="dense"
             id="duration"
             name="duration"
-            label="Duration"
+            label="Duration (Mins)"
             type="number"
             fullWidth
             required
