@@ -9,7 +9,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormLabel from '@mui/material/FormLabel';
-import MODES from '../../enums/mode';
+import MODE from '../../enums/mode';
 
 export default function CreateMarkerDialog({ onMarkerAdd }) {
   const [open, setOpen] = React.useState(false);
@@ -18,7 +18,7 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
     latitude: null,
     longitude: null,
     duration: null,
-    mode: MODES.Walking,
+    mode: MODE.Walking,
   });
 
   const handleClickOpen = () => {
@@ -107,12 +107,12 @@ export default function CreateMarkerDialog({ onMarkerAdd }) {
             required
             onChange={handleInputChange}
             aria-labelledby="mode-radio-buttons-group"
-            defaultValue={MODES.Walking}
+            defaultValue={MODE.Walking}
             name="mode"
           >
-            <FormControlLabel value={MODES.Walking} control={<Radio />} label="Walking" />
-            <FormControlLabel value={MODES.Cycling} control={<Radio />} label="Cycling" />
-            <FormControlLabel value={MODES.Driving} control={<Radio />} label="Driving" />
+            <FormControlLabel value={MODE.Walking} control={<Radio />} label="Walking" />
+            <FormControlLabel value={MODE.Cycling} control={<Radio />} label="Cycling" />
+            <FormControlLabel value={MODE.Driving} control={<Radio />} label="Driving" />
           </RadioGroup>
           <TextField
             autoFocus

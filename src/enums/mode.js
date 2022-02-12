@@ -1,7 +1,7 @@
-const MODES = Object.freeze({
+const MODE = Object.freeze({
   Walking: 'WALKING',
   Cycling: 'CYCLING',
   Driving: 'DRIVING',
 });
 
-export default MODES;
+export default MODE;
