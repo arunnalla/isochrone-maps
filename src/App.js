@@ -3,6 +3,7 @@ import Map, { AttributionControl, Source, Layer } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import Box from '@mui/material/Box';
 import { randomColor } from 'randomcolor';
+import { v4 as uuidv4 } from 'uuid';
 
 import CreateMarkerDialog from './components/create-marker-dialog';
 import CustomMarker from './components/custom-marker';
@@ -15,16 +16,38 @@ mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worke
 function App() {
   const [markers, setMarkers] = useState([]);
 
-  const onMarkerAdd = ({ latitude, longitude, mode, duration }) => {
+  const getIsochroneData = ({ latitude, longitude, mode, duration }) => {
     const urlBase = 'https://api.mapbox.com/isochrone/v1/mapbox/';
 
-    fetch(
+    return fetch(
       `${urlBase}${mode.toLowerCase()}/${longitude},${latitude}?contours_minutes=${duration}&polygons=true&denoise=1&access_token=${
         process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
       }`
-    )
-      .then((response) => response.json())
-      .then((data) => setMarkers([...markers, { latitude, longitude, mode, duration, data, fillColor: randomColor() }]))
+    ).then((response) => response.json());
+  };
+
+  const onMarkerAdd = ({ latitude, longitude, mode, duration }) => {
+    getIsochroneData({ latitude, longitude, mode, duration })
+      .then((data) =>
+        setMarkers([...markers, { id: uuidv4(), latitude, longitude, mode, duration, data, fillColor: randomColor() }])
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const onUpdateMarker = ({ id, latitude, longitude, mode, duration }) => {
+    const markerIndex = markers.findIndex((marker) => marker.id === id);
+    const updatedMarkers = [...markers];
+
+    updatedMarkers[markerIndex].latitude = latitude;
+    updatedMarkers[markerIndex].longitude = longitude;
+
+    getIsochroneData({ latitude, longitude, mode, duration })
+      .then((data) => {
+        updatedMarkers[markerIndex].data = data;
+        setMarkers([...markers]);
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -32,17 +55,17 @@ function App() {
 
   const renderMarkers = () => {
     return markers.map((marker) => {
-      return <CustomMarker key={`${marker.latitude}-${marker.longitude}-marker`} marker={marker} />;
+      return <CustomMarker key={`${marker.id}-marker`} marker={marker} onUpdateMarker={onUpdateMarker} />;
     });
   };
 
   const renderIsochroneLayers = () => {
     return markers.map((marker) => {
-      const sourceId = `${marker.latitude}-${marker.longitude}-geojson`;
-      const layerId = `${marker.latitude}-${marker.longitude}-layer`;
+      const sourceId = `${marker.id}-geojson`;
+      const layerId = `${marker.id}-layer`;
       return (
-        <>
-          <Source id={sourceId} type="geojson" data={marker.data} />
+        <React.Fragment key={`${marker.id}-source-and-layer`}>
+          <Source id={sourceId} key={sourceId} type="geojson" data={marker.data} />
           <Layer
             id={layerId}
             key={layerId}
@@ -50,7 +73,7 @@ function App() {
             source={sourceId}
             paint={{ 'fill-color': marker.fillColor, 'fill-opacity': 0.4 }}
           />
-        </>
+        </React.Fragment>
       );
     });
   };
