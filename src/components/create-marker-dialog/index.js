@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -9,12 +10,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormLabel from '@mui/material/FormLabel';
-import MODE from '../../enums/mode';
+
+import MODE from 'enums/mode';
 
 export default function CreateMarkerDialog({ onMarkerAdd }) {
-  const [open, setOpen] = React.useState(false);
-  const [errors, setErrors] = React.useState({ latitude: false, longitude: false, duration: false });
-  const [formData, setFormData] = React.useState({
+  const [open, setOpen] = useState(false);
+  const [errors, setErrors] = useState({ latitude: false, longitude: false, duration: false });
+  const [formData, setFormData] = useState({
     latitude: null,
     longitude: null,
     duration: null,

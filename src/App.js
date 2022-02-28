@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import Map, { AttributionControl, Source, Layer } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import Box from '@mui/material/Box';
 import { randomColor } from 'randomcolor';
 import { v4 as uuidv4 } from 'uuid';
 
-import CreateMarkerDialog from './components/create-marker-dialog';
-import CustomMarker from './components/custom-marker';
+import CreateMarkerDialog from 'components/create-marker-dialog';
+import CustomMarker from 'components/custom-marker';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -64,7 +64,7 @@ function App() {
       const sourceId = `${marker.id}-geojson`;
       const layerId = `${marker.id}-layer`;
       return (
-        <React.Fragment key={`${marker.id}-source-and-layer`}>
+        <Fragment key={`${marker.id}-source-and-layer`}>
           <Source id={sourceId} key={sourceId} type="geojson" data={marker.data} />
           <Layer
             id={layerId}
@@ -73,7 +73,7 @@ function App() {
             source={sourceId}
             paint={{ 'fill-color': marker.fillColor, 'fill-opacity': 0.4 }}
           />
-        </React.Fragment>
+        </Fragment>
       );
     });
   };

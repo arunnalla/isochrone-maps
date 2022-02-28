@@ -1,12 +1,12 @@
-import * as React from 'react';
+import React, { useCallback } from 'react';
 import { Marker } from 'react-map-gl';
 
 import PropTypes from 'prop-types';
 
-import Pin from '../pin';
+import Pin from 'components/pin';
 
 export default function CustomMarker({ marker, onUpdateMarker }) {
-  const handleMarkerDrag = React.useCallback((event) => {
+  const handleMarkerDrag = useCallback((event) => {
     onUpdateMarker({
       id: marker.id,
       longitude: event.lngLat.lng,
