@@ -30,4 +30,4 @@ serve -s build
 
 ### Deployment
 
-The main branch of this application is auto-deployed and available @ https://isochrones-maps.netlify.app
+The main branch of this application is auto-deployed and available @ https://isochrone-maps.netlify.app
