@@ -94,7 +94,7 @@ function App() {
       </Box>
       {renderMarkers()}
       {renderIsochroneLayers()}
-      <AttributionControl customAttribution="Application built by <a target='_blank' href='https://github.com/arunnalla'>Arun Nalla</a> | <a href='https://www.flaticon.com/free-icons/marker' title='marker icons'>Icons created by Freepik - Flaticon</a>" />
+      <AttributionControl customAttribution="Built by <a target='_blank' href='https://github.com/arunnalla'>Arun Nalla</a> | <a href='https://www.flaticon.com/free-icons/marker' title='marker icons'>Icons created by Freepik - Flaticon</a>" />
     </Map>
   );
 }
