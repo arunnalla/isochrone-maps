@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from 'react';
-import Map, { AttributionControl, Source, Layer } from 'react-map-gl';
+import Map, { AttributionControl, NavigationControl, Source, Layer } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import Box from '@mui/material/Box';
 import { randomColor } from 'randomcolor';
@@ -94,6 +94,7 @@ function App() {
       </Box>
       {renderMarkers()}
       {renderIsochroneLayers()}
+      <NavigationControl position="bottom-left" />
       <AttributionControl customAttribution="Built by <a target='_blank' href='https://github.com/arunnalla'>Arun Nalla</a> | <a href='https://www.flaticon.com/free-icons/marker' title='marker icons'>Icons created by Freepik - Flaticon</a>" />
     </Map>
   );
