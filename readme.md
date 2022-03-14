@@ -4,6 +4,8 @@
 
 Visualize regions that are reachable in a specific time using a specific mode. The application is powered by Mapbox Ischrone API.
 
+![Sample image](/images/sample.png)
+
 ### Install
 
 ```sh
