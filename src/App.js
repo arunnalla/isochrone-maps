@@ -1,5 +1,5 @@
 import React, { useState, Fragment } from 'react';
-import Map, { AttributionControl, NavigationControl, Source, Layer } from 'react-map-gl';
+import Map, { AttributionControl, NavigationControl, Source, Layer, FullscreenControl } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import Box from '@mui/material/Box';
 import { randomColor } from 'randomcolor';
@@ -89,12 +89,13 @@ function App() {
       mapStyle="mapbox://styles/mapbox/dark-v10"
       attributionControl={false}
     >
-      <Box sx={{ position: 'absolute', margin: 2, right: 0 }}>
+      <Box sx={{ position: 'absolute', marginTop: 1, right: 50 }}>
         <CreateMarkerDialog onMarkerAdd={onMarkerAdd} />
       </Box>
       {renderMarkers()}
       {renderIsochroneLayers()}
       <NavigationControl position="bottom-left" />
+      <FullscreenControl />
       <AttributionControl customAttribution="Built by <a target='_blank' href='https://github.com/arunnalla'>Arun Nalla</a> | <a href='https://www.flaticon.com/free-icons/marker' title='marker icons'>Icons created by Freepik - Flaticon</a>" />
     </Map>
   );
