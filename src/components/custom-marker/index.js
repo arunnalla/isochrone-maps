@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import Pin from 'components/pin';
 
-export default function CustomMarker({ marker, onUpdateMarker }) {
+export default function CustomMarker({ marker, onUpdateMarker, onMarkerClick }) {
   const handleMarkerDrag = useCallback((event) => {
     onUpdateMarker({
       id: marker.id,
@@ -26,7 +26,7 @@ export default function CustomMarker({ marker, onUpdateMarker }) {
       anchor="bottom"
       draggable
     >
-      <Pin />
+      <Pin onClick={() => onMarkerClick(marker)} />
     </Marker>
   );
 }
@@ -34,4 +34,5 @@ export default function CustomMarker({ marker, onUpdateMarker }) {
 CustomMarker.propTypes = {
   marker: PropTypes.object,
   onUpdateMarker: PropTypes.func,
+  onMarkerClick: PropTypes.func,
 };

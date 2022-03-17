@@ -6,6 +6,7 @@ import Map, {
   Layer,
   FullscreenControl,
   GeolocateControl,
+  Popup,
 } from 'react-map-gl';
 import mapboxgl from 'mapbox-gl';
 import Box from '@mui/material/Box';
@@ -14,6 +15,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import CreateMarkerDialog from 'components/create-marker-dialog';
 import CustomMarker from 'components/custom-marker';
+import PopupContent from 'components/popup-content';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -21,6 +23,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 function App() {
+  const [selectedMarker, setSelectedMarker] = useState(null);
   const [markers, setMarkers] = useState([]);
 
   const getIsochroneData = ({ latitude, longitude, mode, duration }) => {
@@ -60,9 +63,20 @@ function App() {
       });
   };
 
+  const onMarkerClick = (marker) => {
+    setSelectedMarker(marker);
+  };
+
   const renderMarkers = () => {
     return markers.map((marker) => {
-      return <CustomMarker key={`${marker.id}-marker`} marker={marker} onUpdateMarker={onUpdateMarker} />;
+      return (
+        <CustomMarker
+          key={`${marker.id}-marker`}
+          marker={marker}
+          onUpdateMarker={onUpdateMarker}
+          onMarkerClick={onMarkerClick}
+        />
+      );
     });
   };
 
@@ -104,6 +118,18 @@ function App() {
       <NavigationControl position="bottom-left" />
       <FullscreenControl />
       <GeolocateControl />
+      {selectedMarker && (
+        <Popup
+          latitude={selectedMarker.latitude}
+          longitude={selectedMarker.longitude}
+          anchor="top"
+          closeOnClick={false}
+          onClose={() => setSelectedMarker(null)}
+          maxWidth={300}
+        >
+          <PopupContent marker={selectedMarker} />
+        </Popup>
+      )}
       <AttributionControl customAttribution="Built by <a target='_blank' href='https://github.com/arunnalla'>Arun Nalla</a> | <a href='https://www.flaticon.com/free-icons/marker' title='marker icons'>Icons created by Freepik - Flaticon</a>" />
     </Map>
   );
