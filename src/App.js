@@ -67,6 +67,14 @@ function App() {
     setSelectedMarker(marker);
   };
 
+  const onMarkerDelete = (selectedMarker) => {
+    const markerIndex = markers.findIndex((marker) => marker.id === selectedMarker.id);
+    const updatedMarkers = [...markers];
+    updatedMarkers.splice(markerIndex, 1);
+    setMarkers(updatedMarkers);
+    setSelectedMarker(null);
+  };
+
   const renderMarkers = () => {
     return markers.map((marker) => {
       return (
@@ -127,7 +135,12 @@ function App() {
           onClose={() => setSelectedMarker(null)}
           maxWidth={300}
         >
-          <PopupContent marker={selectedMarker} />
+          <PopupContent
+            marker={selectedMarker}
+            onMarkerDelete={() => {
+              onMarkerDelete(selectedMarker);
+            }}
+          />
         </Popup>
       )}
       <AttributionControl customAttribution="Built by <a target='_blank' href='https://github.com/arunnalla'>Arun Nalla</a> | <a href='https://www.flaticon.com/free-icons/marker' title='marker icons'>Icons created by Freepik - Flaticon</a>" />
