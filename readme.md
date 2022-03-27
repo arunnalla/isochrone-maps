@@ -2,7 +2,7 @@
   <h2>Isochrone Maps</h2>
 </div>
 
-Visualize regions that are reachable in a specific time using a specific mode. The application is powered by Mapbox Ischrone API.
+Visualize regions that are reachable in a specific time using a specific mode. The application is powered by Mapbox Isochrone API.
 
 ![Sample image](/images/sample.png)
 
